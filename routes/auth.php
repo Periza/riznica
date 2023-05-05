@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -12,6 +13,9 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+
+    Route::get('/operator/login', [OperatorController::class, 'create'])->name('operatorLogin');
+    Route::post('/operator/login', [OperatorController::class, 'store'])->name('operatorLoginPost');
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
 

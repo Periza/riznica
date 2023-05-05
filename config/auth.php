@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'operator',
+        'passwords' => 'operators',
     ],
 
     /*
@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'operator' => [
+            'driver' => 'session',
+            'provider' => 'operators'
+        ]
     ],
 
     /*
@@ -65,10 +69,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'operators' => [
+            'driver' => 'operator',
+            'model' => App\Models\Operator::class
+        ],
     ],
 
     /*
@@ -97,6 +101,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'operators' => [
+            'provider' => 'operators',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60
+        ]
     ],
 
     /*
