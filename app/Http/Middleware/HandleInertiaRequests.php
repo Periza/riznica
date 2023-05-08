@@ -30,10 +30,19 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        /*
+        Kada koristimo direktno $request->user()->only(['name', 'sifra', 'partner_id'])
+        ako korisnik nije logiran dobijamo grešku.
+        Zato prije toga stavimo da je $user $request->user()
+        i ako on nije null samo onda uzmemo ->only() od njega
+        */
+        $user = $request->user();
+        $userAttributes = $user ? $user->only(['name', 'sifra', 'partner_id']) : null;
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user()->only(['name', 'sifra'])
+                'user' => $userAttributes
             ],
+            'year' => intval(date('Y')),
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

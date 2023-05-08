@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('oib', 11)->unique();
             $table->string('email');
             $table->string('telefon', 20);
+            $table->string('adresa');
+            $table->string('mjesto');
         });
     }
 

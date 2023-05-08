@@ -3,6 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
+import Layout from '@/Layouts/Layout.vue'
 import { watch, ref } from 'vue';
 
 const form = useForm(
@@ -31,11 +32,17 @@ watch(form.errors, () => {
 
 </script>
 
+<script>
+  export default {
+    layout: Layout
+  }
+</script>
+
 <template>
     <Head title="Riznica - Prijava" />
 
    <div class="min-h-screen bg-blue-900 flex flex-col justify-center sm:py-12">
-   <h2 class="text-center text-lg font-bold mb-5 text-white">RIZNICA VUKOVARSKO-SRIJEMSKE ŽUPANIJE</h2>
+   <h2 class="text-center text-lg font-bold mb-5 text-white">P R I J A V A</h2>
   <div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
     <div class="bg-gray-900 shadow w-full rounded-lg divide-y divide-gray-200">
       <div class="px-5 py-7">
@@ -72,9 +79,5 @@ watch(form.errors, () => {
     </div>
   </div>
 </div>
-
-
-
-
 
 </template>

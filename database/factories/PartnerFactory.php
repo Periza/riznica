@@ -21,6 +21,8 @@ class PartnerFactory extends Factory
             'email' => fake()->unique()->safeEmail,
             'telefon' => fake()->phoneNumber,
             'oib' => $this->generateRandomDigits(),
+            'adresa' => fake()->streetAddress(),
+            'mjesto' => fake()->city()
         ];
     }
 
