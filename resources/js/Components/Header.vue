@@ -7,10 +7,10 @@
         </div>
         <div class="flex items-center">
           <div class="mr-4" v-if="$page.props.auth.user">
-            Prijavljeni ste kao: {{ $page.props.auth.user.name }}
+           {{ $page.props.auth.user.partner.naziv.toUpperCase() }}
           </div>
           <button v-if="$page.props.auth.user" @click="logout" class="bg-red-600 py-2 px-4 rounded-lg hover:bg-red-800 focus:outline-none focus:bg-gold-700">
-            Logout
+            ODJAVA
           </button>
         </div>
       </div>

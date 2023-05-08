@@ -12,6 +12,8 @@ class Operator extends Authenticatable
     public $timestamps = false;
     use HasFactory;
 
+    protected $with = ['partner'];
+
     public function partner()
     {
         return $this->belongsTo(Partner::class);

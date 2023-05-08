@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
         i ako on nije null samo onda uzmemo ->only() od njega
         */
         $user = $request->user();
-        $userAttributes = $user ? $user->only(['name', 'sifra', 'partner_id']) : null;
+        $userAttributes = $user ? $user->only(['name', 'sifra', 'partner']) : null;
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $userAttributes

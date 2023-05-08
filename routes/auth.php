@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -45,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function() {
         return 'test';
     });
+
+    Route::get('/new-partner', [PartnerController::class, 'create']);
 
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
