@@ -47,7 +47,6 @@ Route::middleware('auth')->group(function () {
         return 'test';
     });
 
-    Route::get('/new-partner', [PartnerController::class, 'create']);
 
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');

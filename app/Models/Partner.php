@@ -11,6 +11,8 @@ class Partner extends Model
     
     use HasFactory;
 
+    protected $guarded = [];
+
     public function operators()
     {
         return $this->hasMany(Operator::class);

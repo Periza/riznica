@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PartnerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/odashboard', function() {
         return Inertia::render('OperatorDashboard', ['name' => Auth::user()->name, 'currentYear' => intval(date('Y'))]);
     });
+
+    Route::get('/new-partner', [PartnerController::class, 'create']);
+
+    Route::post('/new-partner', [PartnerController::class, 'store']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
