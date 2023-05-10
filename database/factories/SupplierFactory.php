@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Traits\HasRandomOIB;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Partner>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Supplier>
  */
-class PartnerFactory extends Factory
+class SupplierFactory extends Factory
 {
     use HasRandomOIB;
     /**
@@ -27,5 +27,4 @@ class PartnerFactory extends Factory
             'mjesto' => fake()->city()
         ];
     }
-
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Operator;
 use App\Models\Partner;
+use App\Models\Supplier;
 
 
 class DatabaseSeeder extends Seeder
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
 
         $partners = Partner::factory()->count(10)->create();
         $operators = Operator::factory()->count(10)->create();
+        $suppliers = Supplier::factory()->count(10)->create();
     }
 }

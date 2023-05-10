@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,7 +43,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/new-partner', [PartnerController::class, 'store'])->middleware('can:partner-one');
 
-    Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->middleware('can:partner-one')->name('deletePartner');
+    Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->middleware('can:partner-one')->name('deletePartner')->middleware('can:partner-one');
+
+    Route::get('/new-supplier', [SupplierController::class, 'create']);
 
     Route::get('/partners', function() {
         $partners = Partner::all();

@@ -2,7 +2,7 @@
 <div>
  <div class="container mx-auto px-4 py-10">
         <div class="bg-yellow-300 p-8 rounded-lg shadow">
-            <h1 class="text-2xl font-bold mb-6">Partner Registration</h1>
+            <h1 class="text-2xl font-bold mb-6">Unos partnera</h1>
             <form @submit.prevent="submitForm">
                 <div class="mb-4">
                     <label for="naziv" class="block text-sm font-medium text-gray-700">Naziv</label>
@@ -34,11 +34,11 @@
                     <input v-model="form.mjesto" id="mjesto" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.mjesto" />
                 </div>
-                <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-red-800" :disabled="isSubmitting">{{ isSubmitting ? 'Dodajem...':  'Dodaj'}}</button>
+                <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-red-800" :disabled="isSubmitting">{{ isSubmitting ? 'Unosim...':  'Unesi'}}</button>
             </form>
         </div>
     </div>
-    <div class="text-center">
+    <div class="text-center mb-10">
       <button @click.prevent="prikaziTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">
         {{ showTable ? 'Sakrij partnere' : 'Prikaži partnere' }}
       </button>
@@ -72,8 +72,8 @@
     </div>
 </template>
 <script>
-import Layout from '@/Layouts/Layout.vue'
-import axios from 'axios';
+    import Layout from '@/Layouts/Layout.vue'
+    import axios from 'axios';
 
     export default {
         layout: [Layout]
@@ -85,8 +85,10 @@ import axios from 'axios';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import InputError from '@/Components/InputError.vue';
+import PartnerTable from '@/Components/PartnerTable.vue';
 
 const deletePartner = async function(id) {
+    console.log("delete");
     await axios.delete(`/partners/${id}`);
     if(showTable.value)
         await fetchPartners();

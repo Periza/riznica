@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 
+
+
 class OperatorProvider extends EloquentUserProvider
 {
     public function validateCredentials(Authenticatable $operator, array $credentials)

@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Operators;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +18,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::post('/login', [AuthController::class, 'createToken']);
+
+Route::get('/test', function() {
+    return ;
+});
+
+Route::middleware('auth:sanctum')->get('/test', function()
+{
+    return ['test' => 'test'];
+});
+
+Route::middleware('auth:sanctum')->get('/allOperators', function() {
+    return Operators::all();
 });

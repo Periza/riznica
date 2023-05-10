@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePartnerRequest;
 use App\Repositories\PartnerRepository;
 use App\Models\Partner;
+use Illuminate\Routing\Controller as BaseController;
 
-class PartnerController extends Controller
+class PartnerController extends BaseController
 {
     private $partnerRepositry;
 
@@ -24,7 +25,7 @@ class PartnerController extends Controller
     public function store(StorePartnerRequest $request) {
         $data = $request->validated();
         $partner = $this->partnerRepository->create($data);
-        return Inertia::render('NewPartner')->with(['message' => 'partner dodan']);;
+        return Inertia::render('NewPartner')->with(['message' => 'partner dodan']);
     }
 
     
