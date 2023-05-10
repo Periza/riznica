@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center ">
         <div class="text-lg font-bold">
-          RIZNICA VUKOVARSKO-SRIJEMSKE ŽUPANIJE
+          <Link href="/odashboard">RIZNICA VUKOVARSKO-SRIJEMSKE ŽUPANIJE</Link>
         </div>
         <div class="flex items-center">
           <div class="mr-4" v-if="$page.props.auth.user">
@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const user = ref("");

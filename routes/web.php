@@ -6,6 +6,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Models\Partner;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,9 +38,16 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('OperatorDashboard', ['name' => Auth::user()->name, 'currentYear' => intval(date('Y'))]);
     });
 
-    Route::get('/new-partner', [PartnerController::class, 'create']);
+    Route::get('/new-partner', [PartnerController::class, 'create'])->middleware('can:partner-one');
 
-    Route::post('/new-partner', [PartnerController::class, 'store']);
+    Route::post('/new-partner', [PartnerController::class, 'store'])->middleware('can:partner-one');
+
+    Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->middleware('can:partner-one')->name('deletePartner');
+
+    Route::get('/partners', function() {
+        $partners = Partner::all();
+        return response()->json($partners);
+    });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

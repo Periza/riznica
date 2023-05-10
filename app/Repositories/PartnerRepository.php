@@ -11,4 +11,9 @@ class PartnerRepository {
         $partner = Partner::create($data);
         return $partner;
     }
+
+    public function delete($id) {
+        $partner = Partner::findOrFail($id);
+        $partner->delete();
+    }
 }
