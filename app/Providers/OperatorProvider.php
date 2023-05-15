@@ -15,9 +15,4 @@ class OperatorProvider extends EloquentUserProvider
 
         return $this->hasher->check($plain, $operator->getAuthPassword());
     }
-
-    protected function getAuthIdentifierName()
-    {
-        return 'sifra';
-    }
 }

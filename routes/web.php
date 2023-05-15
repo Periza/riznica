@@ -36,8 +36,10 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/odashboard', function() {
-        return Inertia::render('OperatorDashboard', ['name' => Auth::user()->name, 'currentYear' => intval(date('Y'))]);
+        return Inertia::render('OperatorDashboard');
     });
+
+    Route::post('/logout');
 
     Route::get('/new-partner', [PartnerController::class, 'create'])->middleware('can:partner-one');
 

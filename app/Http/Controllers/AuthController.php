@@ -25,4 +25,8 @@ class AuthController extends Controller
             return response(['error' => 'Unauthorized'], 401);
         }
     }
+
+    public function logout(Request $request) {
+        $request->user()->currentAccessToken()->delete();
+    }
 }

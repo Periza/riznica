@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Operators;
+use App\Models\Operator;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -16,21 +16,12 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::post('/login', [AuthController::class, 'createToken']);
 
-Route::get('/test', function() {
-    return ;
-});
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->get('/test', function()
-{
-    return ['test' => 'test'];
-});
 
 Route::middleware('auth:sanctum')->get('/allOperators', function() {
-    return Operators::all();
+    return Operator::all();
 });

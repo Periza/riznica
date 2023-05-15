@@ -19,12 +19,12 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-const user = ref("");
+const form = useForm({});
 
 const logout = () => {
-  // Implement your logout logic here
+  form.post('/logout');
 };
 </script>

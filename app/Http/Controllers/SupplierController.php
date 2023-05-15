@@ -11,4 +11,9 @@ class SupplierController extends Controller
     {
         return Inertia::render('NewSupplier');
     }
+
+    public function store() {
+        
+    }
+
 }

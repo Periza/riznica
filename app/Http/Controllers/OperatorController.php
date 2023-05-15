@@ -2,23 +2,45 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\OperatorLoginRequest;
 use Illuminate\Routing\Controller as BaseController;
 
 
-class OperatorController extends BaseCOntroller
+class OperatorController extends BaseController
 {
     public function create() {
         return Inertia::render('Auth/OperatorLogin');
     }
 
-    public function store(OperatorLoginRequest $request) {
+    public function login(OperatorLoginRequest $request) {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/');
+        $user = Auth::user();
+
+        return redirect('/odashboard');
     }
+
+    public function logout(Request $request) {
+
+        return 'logout test';
+
+        /*
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/operator/login');
+
+        */
+    }
+
+
 }

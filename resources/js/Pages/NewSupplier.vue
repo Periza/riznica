@@ -3,7 +3,7 @@
         <div class="container mx-auto px-4 py-10">
             <div class="bg-yellow-300 p-8 rounded-lg shadow">
                 <h1 class="text-2xl font-bold mb-6">Unos dobavljača</h1>
-                <form>
+                <form @submit.prevent="submitForm">
                     <div class="mb-4">
                         <label for="naziv" class="block text-sm font-medium text-gray-700">Naziv</label>
                         <input id="naziv" name="naziv" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
@@ -44,6 +44,8 @@
                         <input id="vidljivost" name="vidljivost" type="checkbox" class="mr-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                         <label for="vidljivost" class="text-sm font-medium text-gray-700">Ovaj dobavljač treba biti vidljiv samo meni</label>
                     </div>
+
+                    <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-green-700" :disabled="isSubmitting">{{ isSubmitting ? 'Unosim...':  'Unesi'}}</button>
                 </form>
             </div>
         </div>
@@ -59,8 +61,15 @@ export default {
 
 </script>
 
-
 <script setup>
-
 import InputError from "@/Components/InputError.vue";
+import { ref } from "vue";
+
+const isSubmitting = ref(false);
+
+const submitForm = () => {
+    console.log("submitForm");
+    isSubmitting.value = true;
+}
+
 </script>
