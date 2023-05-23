@@ -87,13 +87,17 @@ const submitForm = () => {
     form.visible_to_all = !hidden.value;
     form.post('/new-supplier', {
         onSuccess: () => {
-
+            
         },
         onFinish: () => {
             isSubmitting.value = false;
         }
     });
 }
+
+onMounted(function () {
+    console.log("New Supplier mounted");
+});
 
 
 </script>

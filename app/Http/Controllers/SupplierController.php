@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SupplierRequest;
 use App\Repositories\SupplierRepository;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Session;
+
 
 class SupplierController extends Controller{
 
@@ -23,7 +25,8 @@ class SupplierController extends Controller{
     public function store(SupplierRequest $request) {
         $data = $request->validated();
         $this->supplierRepository->create($data);
-        return inertia('NewSupplier', ['message' => 'dobavljač dodan!']);
+
+        return Inertia::render('NewSupplier')->with(['flash' => ['message' => "Dobavljač uspješno dodan", 'type' => 'balba', 'duration' => 3000]]);
 
     }
 
