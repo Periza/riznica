@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->middleware('can:partner-one')->name('deletePartner')->middleware('can:partner-one');
 
     Route::get('/new-supplier', [SupplierController::class, 'create']);
+    // Route::post('/new-supplier', [SupplierController::class, 'store']);
+    Route::post('/new-supplier', [SupplierController::class, 'store']);
 
     Route::get('/partners', function() {
         $partners = Partner::all();

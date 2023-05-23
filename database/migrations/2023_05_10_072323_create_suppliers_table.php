@@ -4,31 +4,29 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateSuppliersTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('naziv');
-            $table->string('oib', 11)->unique();
+            $table->string('name');
             $table->string('email');
-            $table->string('telefon', 20);
-            $table->string('adresa');
-            $table->string('mjesto');
-            $table->unsignedBigInteger('operator_id')->nullable();
-            $table->foreign('operator_id')->references('id')->on('operators');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('city');
+            $table->string('oib');
+            $table->unsignedBigInteger('partner_id')->nullable();
+            $table->boolean('visible_to_all')->default(true);
+            $table->timestamps();
+
+            // Foreign key constraint to associate with the partners table
+            $table->foreign('partner_id')->references('id')->on('partners')->onDelete('set null');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('suppliers');
     }
-};
+}

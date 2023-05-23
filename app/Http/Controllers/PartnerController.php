@@ -11,7 +11,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 class PartnerController extends BaseController
 {
-    private $partnerRepositry;
+    private $partnerRepository;
 
     public function __construct(PartnerRepository $repository) {
         $this->partnerRepository = $repository;
@@ -25,6 +25,7 @@ class PartnerController extends BaseController
     public function store(StorePartnerRequest $request) {
         $data = $request->validated();
         $partner = $this->partnerRepository->create($data);
+
         return Inertia::render('NewPartner')->with(['message' => 'partner dodan']);
     }
 

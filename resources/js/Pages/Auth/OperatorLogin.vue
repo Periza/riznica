@@ -19,7 +19,11 @@ let errorTimeout = null;
 
 const submit = () => {
   form.post(route('operatorLoginPost'), {
-    onFinish: () => form.reset('password')
+    onFinish: () => {
+      form.reset('password')
+      form.reset('sifra')
+      form.reset('remember')
+    }
   })
 }
 

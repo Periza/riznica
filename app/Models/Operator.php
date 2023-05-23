@@ -17,6 +17,13 @@ class Operator extends Authenticatable
     use HasFactory;
 
     protected $with = ['partner'];
+    
+
+    // Attributes hidden when the model is converted to JSON or array response
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     public function partner()
     {

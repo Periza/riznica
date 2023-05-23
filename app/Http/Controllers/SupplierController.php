@@ -3,17 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SupplierRequest;
+use App\Repositories\SupplierRepository;
 use Inertia\Inertia;
 
-class SupplierController extends Controller
-{
+class SupplierController extends Controller{
+
+    private $supplierRepository;
+
+    public function __construct(SupplierRepository $repository) {
+        $this->supplierRepository = $repository;
+    }
+
     public function create()
     {
         return Inertia::render('NewSupplier');
     }
 
-    public function store() {
-        
+    public function store(SupplierRequest $request) {
+        $data = $request->validated();
+        $this->supplierRepository->create($data);
+        return inertia('NewSupplier', ['message' => 'dobavljač dodan!']);
+
     }
 
 }

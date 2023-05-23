@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -32,7 +33,7 @@ class HandleInertiaRequests extends Middleware
     {
         /*
         Kada koristimo direktno $request->user()->only(['name', 'sifra', 'partner_id'])
-        ako korisnik nije logiran dobijamo grešku.
+        ako korisnik nije logiran dobijamo greï¿½ku.
         Zato prije toga stavimo da je $user $request->user()
         i ako on nije null samo onda uzmemo ->only() od njega
         */

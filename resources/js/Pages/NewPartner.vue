@@ -113,12 +113,11 @@ const submitForm = function () {
     form.post('/new-partner', {
         onSuccess: () => {
             form.reset();
-            isSubmitting.value = false;
             if(showTable.value) {
                 fetchPartners();
             }
         },
-        onError: () => {
+        onFinish: () => {
             isSubmitting.value = false;
         }
     });

@@ -19,12 +19,12 @@ class SupplierFactory extends Factory
     public function definition(): array
     {
         return [
-            'naziv' => fake()->company(),
+            'name' => fake()->company(),
             'email' => fake()->unique()->safeEmail,
-            'telefon' => fake()->phoneNumber,
+            'phone' => fake()->phoneNumber,
             'oib' => $this->randomOIB(),
-            'adresa' => fake()->streetAddress(),
-            'mjesto' => fake()->city()
+            'address' => fake()->streetAddress(),
+            'city' => fake()->city()
         ];
     }
 }

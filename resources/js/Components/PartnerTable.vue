@@ -9,7 +9,7 @@
 <script setup>
 import THead from './THead.vue';
 import TBody from './TBody.vue';
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, defineProps } from 'vue';
 
 const prop = defineProps({
     array: {

@@ -122,4 +122,9 @@ return [
 
     'password_timeout' => 10800,
 
+    'remember_me' => [
+        'expire' => 60 * 24 * 30,
+        'cookie' => 'remember_web',
+    ],
+
 ];

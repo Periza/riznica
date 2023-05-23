@@ -9,4 +9,6 @@ class Supplier extends Model
 {
     public $timestamps = false;
     use HasFactory;
+
+    protected $guarded = [];
 }
