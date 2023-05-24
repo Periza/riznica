@@ -65,7 +65,7 @@ export default {
 <script setup>
 import InputError from "@/Components/InputError.vue";
 import { useForm, usePage } from '@inertiajs/vue3';
-import { ref, watch } from "vue";
+import { ref, watch, inject } from "vue";
 
 
 const form = useForm({
@@ -78,6 +78,8 @@ const form = useForm({
     visible_to_all: true
 });
 
+const showFlash = inject('showFlash');
+
 const hidden = ref(false);
 
 const isSubmitting = ref(false);
@@ -87,7 +89,7 @@ const submitForm = () => {
     form.visible_to_all = !hidden.value;
     form.post('/new-supplier', {
         onSuccess: () => {
-            
+            showFlash();
         },
         onFinish: () => {
             isSubmitting.value = false;
