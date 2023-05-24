@@ -6,7 +6,7 @@
             <form @submit.prevent="submitForm">
                 <div class="mb-4">
                     <label for="naziv" class="block text-sm font-medium text-gray-700">Naziv</label>
-                    <input v-model="form.naziv" id="naziv" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <input required v-model="form.naziv" id="naziv" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.naziv" />
                 </div>
                 <div class="mb-4">
@@ -16,22 +16,22 @@
                 </div>
                 <div class="mb-4">
                     <label for="telefon" class="block text-sm font-medium text-gray-700">Telefon</label>
-                    <input v-model="form.telefon" id="telefon" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <input required v-model="form.telefon" id="telefon" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.telefon" />
                 </div>
                 <div class="mb-4">
                     <label for="oib" class="block text-sm font-medium text-gray-700">OIB</label>
-                    <input v-model="form.oib" id="oib" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <input pattern="[0-9]{11}" required maxlength="11" id="oib" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.oib" />
                 </div>
                 <div class="mb-4">
                     <label for="adresa" class="block text-sm font-medium text-gray-700">Adresa</label>
-                    <input v-model="form.adresa" id="adresa" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <input required v-model="form.adresa" id="adresa" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.adresa" />
                 </div>
                 <div class="mb-4">
                     <label for="mjesto" class="block text-sm font-medium text-gray-700">Mjesto</label>
-                    <input v-model="form.mjesto" id="mjesto" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <input required v-model="form.mjesto" id="mjesto" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.mjesto" />
                 </div>
                 <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-red-800" :disabled="isSubmitting">{{ isSubmitting ? 'Unosim...':  'Unesi'}}</button>
