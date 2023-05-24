@@ -54,7 +54,6 @@
 
 <script>
 import Layout from "@/Layouts/Layout.vue";
-import { onMounted } from "vue";
 
 export default {
     layout: [Layout]
@@ -90,16 +89,13 @@ const submitForm = () => {
     form.post('/new-supplier', {
         onSuccess: () => {
             showFlash();
+            // form.reset();
         },
         onFinish: () => {
-            isSubmitting.value = false;
+            isSubmitting.value = false; 
         }
     });
 }
-
-onMounted(function () {
-    console.log("New Supplier mounted");
-});
 
 
 </script>

@@ -26,7 +26,7 @@ class SupplierController extends Controller{
         $data = $request->validated();
         $this->supplierRepository->create($data);
 
-        return Inertia::render('NewSupplier')->with(['flash' => ['message' => "Dobavljač uspješno dodan", 'type' => 'success']]);
+        return Inertia::render('NewSupplier')->with(['flash' => ['message' => "Dobavljač {$request['name']} uspješno dodan", 'type' => 'success', 'duration' => 10000]]);
 
     }
 
