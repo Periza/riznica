@@ -26,11 +26,13 @@ class PartnerController extends BaseController
         $data = $request->validated();
         $partner = $this->partnerRepository->create($data);
 
-        return Inertia::render('NewPartner')->with(['message' => 'partner dodan']);
+        return Inertia::render('NewPartner')->with(['toast' => ['message' => "Partner {$request['naziv']} dodan!", 'type' => 'success']]);
     }
 
     
     public function destroy($id) {
-        $this->partnerRepository->delete($id);
+        $partner = Partner::find($id);
+        $this->partnerRepository->delete($partner->id);
+        return redirect('/new-partner')->with(['toast' => ['message' => "Partner {$partner->naziv} obrisan!", 'type' => 'success']]);
     }
 }

@@ -49,11 +49,15 @@
                 </form>
             </div>
         </div>
+        <div class="text-center mb-10">
+            <button @click="prikaziTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">Prikaži dobavljače</button>
+        </div>
     </div>
 </template>
 
 <script>
 import Layout from "@/Layouts/Layout.vue";
+import { onMounted } from "vue";
 
 export default {
     layout: [Layout]
@@ -65,6 +69,7 @@ export default {
 import InputError from "@/Components/InputError.vue";
 import { useForm, usePage } from '@inertiajs/vue3';
 import { ref, watch, inject } from "vue";
+import axios from "axios";
 
 
 const form = useForm({
@@ -89,7 +94,7 @@ const submitForm = () => {
     form.post('/new-supplier', {
         onSuccess: () => {
             showFlash();
-            // form.reset();
+            form.reset();
         },
         onFinish: () => {
             isSubmitting.value = false; 
@@ -97,5 +102,18 @@ const submitForm = () => {
     });
 }
 
+
+function prikaziTablicu() {
+    console.log("prikazi tablicu");
+}
+
+async function fetchSuppliers() {
+    const response = await axios.get('/suppliers');
+    console.log(response.data);
+}
+
+onMounted(() => {
+    fetchSuppliers();
+});
 
 </script>

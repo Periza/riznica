@@ -7,6 +7,8 @@ use App\Http\Requests\SupplierRequest;
 use App\Repositories\SupplierRepository;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class SupplierController extends Controller{
@@ -24,8 +26,8 @@ class SupplierController extends Controller{
 
     public function store(SupplierRequest $request) {
         $data = $request->validated();
+        $data['partner_id'] = Auth::user()->partner_id;
         $this->supplierRepository->create($data);
-
         return Inertia::render('NewSupplier')->with(['flash' => ['message' => "Dobavljač {$request['name']} uspješno dodan", 'type' => 'success', 'duration' => 10000]]);
 
     }

@@ -21,7 +21,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="oib" class="block text-sm font-medium text-gray-700">OIB</label>
-                    <input pattern="[0-9]{11}" required maxlength="11" id="oib" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <input pattern="[0-9]{11}" required maxlength="11" v-model="form.oib" id="oib" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.oib" />
                 </div>
                 <div class="mb-4">
@@ -44,7 +44,7 @@
       </button>
       <div class="overflow-x-auto mx-20" v-if="showTable && partners.length > 0">
   <table class="w-full border-l-2 border-gray-400">
-    <PartnerTable :array="partners" class="border-solid border-4 hover:border-dotted"></PartnerTable>
+    <PartnerTable @partner-deleted="partnerDeleted" :array="partners" class="border-solid border-4 hover:border-dotted"></PartnerTable>
   </table>
 </div>
 
@@ -54,6 +54,7 @@
 <script>
     import Layout from '@/Layouts/Layout.vue'
     import axios from 'axios';
+import { toFormData } from 'axios';
 
     export default {
         layout: [Layout]
@@ -62,18 +63,22 @@
 
 
 <script setup>
-import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { ref, inject } from 'vue';
+import toast from '@/Stores/toast';
 import InputError from '@/Components/InputError.vue';
 import PartnerTable from '@/Components/PartnerTable.vue';
 
-const deletePartner = async function(id) {
-    console.log("delete");
-    await axios.delete(`/partners/${id}`);
-    if(showTable.value)
-        await fetchPartners();
-}
 
+const page = usePage();
+
+function partnerDeleted(id) {
+    toast.add({
+      message: page.props.toast.message,
+      type: page.props.toast.type
+    });
+    // fetchPartners();
+}
 
 
 const form = useForm({
@@ -95,9 +100,6 @@ const partners = ref([]);
 const fetchPartners = async function() {
     const response = await axios.get('/partners');
     partners.value = response.data;
-     // Get all the keys of the first partner in the array
-    // const firstPartnerKeys = Object.keys(partners.value[0]);
-    //headers.value = firstPartnerKeys.filter((key) => key != 'id').map((key) => key.toUpperCase());
 }
 
 const prikaziTablicu = function() {
