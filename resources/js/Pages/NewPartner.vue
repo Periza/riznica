@@ -69,17 +69,11 @@ import toast from '@/Stores/toast';
 import InputError from '@/Components/InputError.vue';
 import PartnerTable from '@/Components/PartnerTable.vue';
 
-
-const page = usePage();
-
-function partnerDeleted(id) {
-    toast.add({
-      message: page.props.toast.message,
-      type: page.props.toast.type
-    });
-    // fetchPartners();
+function partnerDeleted() {
+    fetchPartners();
 }
 
+const page = usePage();
 
 const form = useForm({
     naziv: '',
@@ -113,6 +107,7 @@ const prikaziTablicu = function() {
 const submitForm = function () {
     isSubmitting.value = true;
     form.post('/new-partner', {
+        preserveScroll: true,
         onSuccess: () => {
             form.reset();
             if(showTable.value) {

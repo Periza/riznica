@@ -24,8 +24,9 @@ const myHeaders = ref([]);
 
 myHeaders.value  = Object.keys(prop.array[0]).filter(key => key != 'id').map((key) => key.toUpperCase());
 
-function emitDelete(id) {
-    emit('partner-deleted', id);
+function emitDelete() {
+    console.log("partner delete from PartnerTable");
+    emit('partner-deleted');
 }
 
 

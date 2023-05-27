@@ -27,7 +27,12 @@
   });
   
   function deleteFunction(id) {
-    router.delete(`/partners/${id}`);
+    router.delete(`/partners/${id}`, {
+      preserveScroll: true,
+      onSuccess: function() {
+        emit('partner-deleted');
+      }
+    });
   }
 </script>
   
