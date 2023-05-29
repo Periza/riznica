@@ -42,6 +42,25 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
         return $supplier;
     });
 
+    Route::post('/supplier', function(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'oib' => 'required|string|size:11',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'visible_to_all' => 'required|boolean'
+        ]);
+
+        if($validator->fails()) {
+            return response()->json(['message' => 'Bad request']);
+        }
+
+        return response()->json(['message' => 'Dobavljač dodan!']);
+    });
+
     Route::delete('/supplier/{id}', function($id) {
         $supplier = Supplier::findOrFail($id);
         $supplier->delete();
