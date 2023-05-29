@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="text-center mb-10">
-            <button @click="prikaziTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">{{showTable ? 'Sakrij dobavljače' : 'Prikaži dobavljače'}}</button>
+            <button @click="toggleTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">{{showTable ? 'Sakrij dobavljače' : 'Prikaži dobavljače'}}</button>
         </div>
         <SupplierTable v-if="showTable" :headers="headers"/>
     </div>
@@ -71,9 +71,15 @@ export default {
 
 <script setup>
 import InputError from "@/Components/InputError.vue";
-import { useForm, usePage } from '@inertiajs/vue3';
-import { ref, watch, inject } from "vue";
+import { useForm, usePage, router } from '@inertiajs/vue3';
+import { ref, defineProps } from "vue";
 import axios from "axios";
+
+const props = defineProps(
+    {
+        courses: Object
+    }
+);
 
 
 const form = useForm({
@@ -104,14 +110,13 @@ const submitForm = () => {
 }
 
 
-function prikaziTablicu() {
+function toggleTablicu() {
     showTable.value = !showTable.value;
+    router.get('/suppliers', {
+        preserveScroll: true
+    });
 }
 
-async function fetchSuppliers() {
-    const response = await axios.get('/suppliers');
-    console.log(response.data);
-}
 
 
 </script>

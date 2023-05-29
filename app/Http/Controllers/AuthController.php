@@ -15,12 +15,10 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // dd($credentials);
-
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('api-token')->plainTextToken;
-            return ['token' => $token];
+            return ['token' => $token, 'partner_id' => $user->partner->id];
         } else {
             return response(['error' => 'Unauthorized'], 401);
         }

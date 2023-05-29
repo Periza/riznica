@@ -12,7 +12,7 @@ let removeFinishEventListener = router.on('finish', (event) => {
   if(page.props.toast) {
     toast.add({
       message: page.props.toast.message,
-      type: page.props.toast.type
+      type: page.props.toast.type,
     });
   }
 });

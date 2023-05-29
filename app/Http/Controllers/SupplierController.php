@@ -9,6 +9,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Supplier;
+
 
 
 class SupplierController extends Controller{
@@ -17,6 +19,10 @@ class SupplierController extends Controller{
 
     public function __construct(SupplierRepository $repository) {
         $this->supplierRepository = $repository;
+    }
+
+    public function index() {
+        return redirect('/new-supplier');
     }
 
     public function create()

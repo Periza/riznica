@@ -42,10 +42,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout');
 
+    // Partner requests
     Route::get('/new-partner', [PartnerController::class, 'create'])->middleware('can:partner-one')->name('newPartner');
-
     Route::post('/new-partner', [PartnerController::class, 'store'])->middleware('can:partner-one');
-
     Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->middleware('can:partner-one')->name('deletePartner')->middleware('can:partner-one');
 
     // json for list
@@ -57,10 +56,7 @@ Route::middleware('auth')->group(function () {
     // Supplier requests
     Route::get('/new-supplier', [SupplierController::class, 'create']);
     Route::post('/new-supplier', [SupplierController::class, 'store']);
-    Route::get('/suppliers', function() { // json for list
-        $suppliers = Supplier::all();
-        return response()->json($suppliers);
-    });
+    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
