@@ -39,10 +39,15 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
     Route::get('/supplier/{id}', function($id) {
         $supplier = Supplier::findOrFail($id);
-        $partner->delete();
-
-        return response()->json(['message' => 'Partner deleted successfully']);
+        return $supplier;
     });
+
+    Route::delete('/supplier/{id}', function($id) {
+        $supplier = Supplier::findOrFail($id);
+        $supplier->delete();
+
+        return response()->json(['message' => 'Partner deleted success']);
+    })->middleware('can:partner-one');
 });
 
 Route::middleware('auth:sanctum')->get('/allOperators', function() {
