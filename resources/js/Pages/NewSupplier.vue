@@ -50,14 +50,18 @@
             </div>
         </div>
         <div class="text-center mb-10">
-            <button @click="prikaziTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">Prikaži dobavljače</button>
+            <button @click="prikaziTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">{{showTable ? 'Sakrij dobavljače' : 'Prikaži dobavljače'}}</button>
         </div>
+        <SupplierTable v-if="showTable" :headers="headers"/>
     </div>
 </template>
 
+
 <script>
 import Layout from "@/Layouts/Layout.vue";
-import { onMounted } from "vue";
+import SupplierTable from "@/Components/SupplierTable.vue";
+
+const headers = ref(['ime', 'email', 'telefon', 'adresa', 'grad', 'oib'].map(stupac => stupac.toUpperCase()));
 
 export default {
     layout: [Layout]
@@ -82,10 +86,8 @@ const form = useForm({
     visible_to_all: true
 });
 
-const showFlash = inject('showFlash');
-
 const hidden = ref(false);
-
+const showTable = ref(false);
 const isSubmitting = ref(false);
 
 const submitForm = () => {
@@ -93,7 +95,6 @@ const submitForm = () => {
     form.visible_to_all = !hidden.value;
     form.post('/new-supplier', {
         onSuccess: () => {
-            showFlash();
             form.reset();
         },
         onFinish: () => {
@@ -104,7 +105,7 @@ const submitForm = () => {
 
 
 function prikaziTablicu() {
-    console.log("prikazi tablicu");
+    showTable.value = !showTable.value;
 }
 
 async function fetchSuppliers() {
@@ -112,8 +113,5 @@ async function fetchSuppliers() {
     console.log(response.data);
 }
 
-onMounted(() => {
-    fetchSuppliers();
-});
 
 </script>

@@ -28,8 +28,7 @@ class SupplierController extends Controller{
         $data = $request->validated();
         $data['partner_id'] = Auth::user()->partner_id;
         $this->supplierRepository->create($data);
-        return Inertia::render('NewSupplier')->with(['flash' => ['message' => "Dobavljač {$request['name']} uspješno dodan", 'type' => 'success', 'duration' => 10000]]);
-
+        return Inertia::render('NewSupplier')->with(['toast' => ['message' => "Dobavljač {$request->name} uspješno dodan!", 'type' => 'success']]);
     }
 
 }

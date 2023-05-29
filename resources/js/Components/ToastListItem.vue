@@ -25,6 +25,7 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { defineProps, computed } from 'vue';
 
 const emit = defineEmits(['remove']);
@@ -38,7 +39,17 @@ const props = defineProps({
   message: {
     type: String,
     required: true
+  },
+  duration: {
+    type: Number,
+    default: 2000
   }
+});
+
+onMounted(() => {
+  setTimeout(() => {
+    emit('remove');
+  }, props.duration);
 });
 
 const toastClasses = computed(() => ({

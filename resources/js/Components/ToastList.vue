@@ -8,7 +8,7 @@ import toast from '@/Stores/toast';
 
 const page = usePage();
 
-let removeFinishEventListener = router.on('success', (event) => {
+let removeFinishEventListener = router.on('finish', (event) => {
   if(page.props.toast) {
     toast.add({
       message: page.props.toast.message,
@@ -35,7 +35,7 @@ onUnmounted(() => {
     class="fixed top-20 right-4 z-50 space-y-4 w-full max-w-xs" 
     tag="div"
   >
-    <ToastListItem v-for="(item, index) in toast.items" :message="item.message" :type="item.type" :key="item.key" @remove="remove(index)"></ToastListItem>
+    <ToastListItem v-for="(item, index) in toast.items" :message="item.message" :duration="2000" :type="item.type" :key="item.key" @remove="remove(index)"></ToastListItem>
   </transition-group>
 </template>
 
