@@ -56,7 +56,6 @@ Route::middleware('auth')->group(function () {
     // Supplier requests
     Route::get('/new-supplier', [SupplierController::class, 'create']);
     Route::post('/new-supplier', [SupplierController::class, 'store']);
-    Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

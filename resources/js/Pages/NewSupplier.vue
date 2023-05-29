@@ -52,7 +52,7 @@
         <div class="text-center mb-10">
             <button @click="toggleTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">{{showTable ? 'Sakrij dobavljače' : 'Prikaži dobavljače'}}</button>
         </div>
-        <SupplierTable v-if="showTable" :headers="headers"/>
+        <SupplierTable v-if="showTable" :headers="headers" />
     </div>
 </template>
 
@@ -71,13 +71,13 @@ export default {
 
 <script setup>
 import InputError from "@/Components/InputError.vue";
-import { useForm, usePage, router } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { ref, defineProps } from "vue";
 import axios from "axios";
 
 const props = defineProps(
     {
-        courses: Object
+        suppliers: Object
     }
 );
 
@@ -92,9 +92,11 @@ const form = useForm({
     visible_to_all: true
 });
 
+
 const hidden = ref(false);
 const showTable = ref(false);
 const isSubmitting = ref(false);
+const suppliers = ref([]);
 
 const submitForm = () => {
     isSubmitting.value = true;
@@ -109,12 +111,8 @@ const submitForm = () => {
     });
 }
 
-
 function toggleTablicu() {
     showTable.value = !showTable.value;
-    router.get('/suppliers', {
-        preserveScroll: true
-    });
 }
 
 

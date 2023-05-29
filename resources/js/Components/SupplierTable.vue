@@ -8,8 +8,9 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
 import SupplierTableHeader from './SupplierTableHeader.vue';
+import { router, usePage } from '@inertiajs/vue3';
 
 const props = defineProps(
     {
@@ -17,11 +18,19 @@ const props = defineProps(
             type: Array,
             required: false
         },
-        data: {
-            type: Array,
-            required: false
-        }
     }
 );
+
+const suppliers = ref([]);
+const page = usePage();
+
+let removeFinishEventListener = router.on('finish', () => {
+    suppliers.value = page.props.suppliers;
+    console.log(suppliers.value);
+});
+
+onMounted(() => {
+    router.reload({only: ['suppliers']});
+});
 
 </script>

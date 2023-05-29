@@ -21,13 +21,11 @@ class SupplierController extends Controller{
         $this->supplierRepository = $repository;
     }
 
-    public function index() {
-        return redirect('/new-supplier');
-    }
-
     public function create()
     {
-        return Inertia::render('NewSupplier');
+        return Inertia::render('NewSupplier',[
+            'suppliers' => Inertia::lazy(fn () => Supplier::paginate())
+        ]);
     }
 
     public function store(SupplierRequest $request) {

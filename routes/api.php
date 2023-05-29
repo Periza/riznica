@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Operator;
+use App\Models\Partner;
+use App\Models\Supplier;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -21,6 +23,27 @@ Route::post('/login', [AuthController::class, 'createToken']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::get('/operators', function () {
+        return Operator::all();
+    });
+
+    Route::get('/partners', function() {
+        return Partner::all();
+    });
+
+    Route::get('/suppliers', function() {
+        return Supplier::all();
+    });
+
+    Route::get('/supplier/{id}', function($id) {
+        $supplier = Supplier::findOrFail($id);
+        $partner->delete();
+
+        return response()->json(['message' => 'Partner deleted successfully']);
+    });
+});
 
 Route::middleware('auth:sanctum')->get('/allOperators', function() {
     return Operator::all();
