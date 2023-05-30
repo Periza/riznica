@@ -49,6 +49,7 @@ const props = defineProps({
 onMounted(() => {
   setTimeout(() => {
     emit('remove');
+    console.log("remove");
   }, props.duration);
 });
 

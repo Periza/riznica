@@ -50,9 +50,9 @@
             </div>
         </div>
         <div class="text-center mb-10">
-            <button @click="toggleTablicu" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">{{showTable ? 'Sakrij dobavljače' : 'Prikaži dobavljače'}}</button>
+            <button @click="toggleTable" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">{{showTable ? 'Sakrij dobavljače' : 'Prikaži dobavljače'}}</button>
         </div>
-        <SupplierTable v-if="showTable" :headers="headers" />
+        <SupplierTable :show="showTable" :headers="headers"></SupplierTable>
     </div>
 </template>
 
@@ -60,6 +60,7 @@
 <script>
 import Layout from "@/Layouts/Layout.vue";
 import SupplierTable from "@/Components/SupplierTable.vue";
+import { onMounted } from "vue";
 
 const headers = ref(['ime', 'email', 'telefon', 'adresa', 'grad', 'oib'].map(stupac => stupac.toUpperCase()));
 
@@ -72,15 +73,9 @@ export default {
 <script setup>
 import InputError from "@/Components/InputError.vue";
 import { useForm } from '@inertiajs/vue3';
-import { ref, defineProps } from "vue";
-import axios from "axios";
+import { ref } from "vue";
 
-const props = defineProps(
-    {
-        suppliers: Object
-    }
-);
-
+const showTable = ref(false);
 
 const form = useForm({
     name: '',
@@ -92,29 +87,35 @@ const form = useForm({
     visible_to_all: true
 });
 
-
 const hidden = ref(false);
-const showTable = ref(false);
+
 const isSubmitting = ref(false);
-const suppliers = ref([]);
 
 const submitForm = () => {
     isSubmitting.value = true;
     form.visible_to_all = !hidden.value;
     form.post('/new-supplier', {
+        preserveScroll: true,
         onSuccess: () => {
             form.reset();
         },
         onFinish: () => {
-            isSubmitting.value = false; 
+            isSubmitting.value = false;
         }
     });
 }
 
-function toggleTablicu() {
+function toggleTable() {
     showTable.value = !showTable.value;
+    localStorage.setItem('showTable', showTable.value.toString());
 }
 
-
+onMounted(() => {
+    const savedShowTable = localStorage.getItem('showTable');
+    if(savedShowTable !== null)
+    {
+        showTable.value = savedShowTable === 'true';
+    }
+});
 
 </script>

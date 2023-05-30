@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
     // Partner requests
     Route::get('/new-partner', [PartnerController::class, 'create'])->middleware('can:partner-one')->name('newPartner');
     Route::post('/new-partner', [PartnerController::class, 'store'])->middleware('can:partner-one');
-    Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->middleware('can:partner-one')->name('deletePartner')->middleware('can:partner-one');
+    Route::delete('/partners/{id}', [PartnerController::class, 'destroy'])->middleware('can:partner-one')->name('deletePartner');
 
     // json for list
     Route::get('/partners', function() {
@@ -54,8 +54,9 @@ Route::middleware('auth')->group(function () {
     });
 
     // Supplier requests
-    Route::get('/new-supplier', [SupplierController::class, 'create']);
+    Route::get('/new-supplier', [SupplierController::class, 'create'])->name('supplier.create');
     Route::post('/new-supplier', [SupplierController::class, 'store']);
+    Route::delete('/supplier/{id}', [SupplierController::class, 'destroy']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -23,16 +23,20 @@ class SupplierController extends Controller{
 
     public function create()
     {
-        return Inertia::render('NewSupplier',[
-            'suppliers' => Inertia::lazy(fn () => Supplier::paginate())
-        ]);
+        return Inertia::render('NewSupplier')->with(['suppliers' => fn () => Supplier::paginate(5)]);
     }
 
     public function store(SupplierRequest $request) {
         $data = $request->validated();
         $data['partner_id'] = Auth::user()->partner_id;
         $this->supplierRepository->create($data);
-        return Inertia::render('NewSupplier')->with(['toast' => ['message' => "Dobavljač {$request->name} uspješno dodan!", 'type' => 'success']]);
+        return redirect('/new-supplier')->with(['toast' => ['message' => "Dobavljač {$request->name} dodan!", 'type' => 'success']]);
+    }
+
+    public function destroy($id) {
+        $supplier = Supplier::findOrFail($id);
+        $supplier->delete();
+        return redirect('/new-supplier')->with(['toast' => ['message' => "Dobavljač {$supplier->name} obrisan!", 'type' => 'success']]);
     }
 
 }
