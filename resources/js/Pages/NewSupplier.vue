@@ -72,7 +72,7 @@ export default {
 
 <script setup>
 import InputError from "@/Components/InputError.vue";
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import { ref } from "vue";
 
 const showTable = ref(false);
@@ -94,8 +94,9 @@ const isSubmitting = ref(false);
 const submitForm = () => {
     isSubmitting.value = true;
     form.visible_to_all = !hidden.value;
-    form.post('/new-supplier', {
+    form.post(`/new-supplier` + `?page=${usePage().props.suppliers.current_page}`, {
         preserveScroll: true,
+        preserveState: true,
         onSuccess: () => {
             form.reset();
         },
