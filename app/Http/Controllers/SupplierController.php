@@ -23,25 +23,33 @@ class SupplierController extends Controller{
 
     public function create()
     {
-        return Inertia::render('NewSupplier')->with(['suppliers' => fn () => Supplier::paginate(4)]);
+        $operator = Auth::user();
+        return Inertia::render('NewSupplier')->with(['suppliers' => fn () => Supplier::where(function($query) use ($operator) {
+            $query->where('visible_to_all', true)->orWhere('partner_id', $operator->partner_id);
+        })->paginate(5)]);
     }
 
-    public function store(SupplierRequest $request) {
-        $data = $request->validated();
+    public function store(Request $request) {
+        $data = $request->validate( [
+            'name' => 'required|string|max:255',
+            'oib' => 'required|string|size:11',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'visible_to_all' => 'required|boolean'
+        ]);
+
         $data['partner_id'] = Auth::user()->partner_id;
         $this->supplierRepository->create($data);
-        $redirect_path = '/new-supplier';
-        if($request->page)
-        {
-            $redirect_path = $redirect_path."?page={$request->page}";
-        }
+        $redirect_path = $request->page && $request->page > 1 ? "/new-supplier"."?page={$request->page}" : "/new-supplier";
         return redirect($redirect_path)->with(['toast' => ['message' => "Dobavljač {$request->name} dodan!", 'type' => 'success']]);
     }
 
-    public function destroy($id, Request $request) {
-        $supplier = Supplier::findOrFail($id);
+    public function destroy(Supplier $supplier, Request $request) {
+        $this->autorize('delete', $supplier);
         $supplier->delete();
-        $redirect_path = $request->page ? "/new-supplier"."?page={$request->page}" : '/new-supplier';
+        $redirect_path = $request->page && $request->page > 1 ? "/new-supplier"."?page={$request->page}" : '/new-supplier';
         return redirect($redirect_path)->with(['toast' => ['message' => "Dobavljač {$supplier->name} obrisan!", 'type' => 'success']]);
     }
 

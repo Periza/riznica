@@ -1,42 +1,57 @@
 <template>
-    <table v-if="props.show">
+    <div class="flex justify-center">
+      <table v-if="props.show" class="w-full max-w-lg bg-white shadow-md rounded-lg border">
         <SupplierTableHeader v-if="headers" :headers="headers" />
         <tbody>
-            <tr v-for="supplier in page.props.suppliers.data" :key="supplier.id" :class="{'bg-green-200': supplier.partner_id == page.props.auth.user.partner.id}">
-                <td>{{ supplier.name }}</td>
-                <td>{{ supplier.email }}</td>
-                <td>{{ supplier.phone }}</td>
-                <td>{{supplier.address}}</td>
-                <td>{{supplier.city}}</td>
-                <td>{{supplier.oib}}</td>
-                <td v-if="supplier.partner_id == page.props.auth.user.partner.id || page.props.auth.user.partner.id == 1"><button @click="deleteSupplier(supplier.id)">OBRIŠI</button></td>
-                <td v-if="supplier.partner_id == page.props.auth.user.partner.id"><button>UREDI</button></td>
-            </tr>
+          <tr v-for="supplier in page.props.suppliers.data" :key="supplier.id" :class="{'bg-green-200': supplier.partner_id == page.props.auth.user.partner.id}">
+            <td class="border px-4 py-2">{{ supplier.name }}</td>
+            <td class="border px-4 py-2">{{ supplier.email }}</td>
+            <td class="border px-4 py-2">{{ supplier.phone }}</td>
+            <td class="border px-4 py-2">{{ supplier.address }}</td>
+            <td class="border px-4 py-2">{{ supplier.city }}</td>
+            <td class="border px-4 py-2">{{ supplier.oib }}</td>
+            <td v-if="supplier.partner_id == page.props.auth.user.partner.id || page.props.auth.user.partner.id == 1" class="border px-4 py-2">
+              <button @click="deleteSupplier(supplier.id)" class="px-4 py-2 bg-red-500 text-white rounded">OBRIŠI</button>
+            </td>
+            <td v-if="supplier.partner_id == page.props.auth.user.partner.id" class="border px-4 py-2">
+              <button class="px-4 py-2 bg-blue-500 text-white rounded">UREDI</button>
+            </td>
+          </tr>
         </tbody>
-        <div>
-            <button v-if="page.props.suppliers.next_page_url" @click="nextPage(page.props.suppliers.next_page_url)">Next</button>
-            <button v-if="page.props.suppliers.prev_page_url" @click="nextPage(page.props.suppliers.prev_page_url)">Previous</button>
-        </div>
-    </table>
-</template>
+        <tfoot>
+          <tr>
+            <td colspan="7">
+              <div class="flex justify-between">
+                <button v-if="page.props.suppliers.prev_page_url" @click="nextPage(page.props.suppliers.prev_page_url)" class="text-sm">Prev</button>
+                <div v-else></div>
+                <button v-if="page.props.suppliers.next_page_url" @click="nextPage(page.props.suppliers.next_page_url)" class="text-sm ml-auto">Next</button>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </template>
+  
+  
+  
+  
+  
+  
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import SupplierTableHeader from './SupplierTableHeader.vue';
 import { router, usePage, useForm } from '@inertiajs/vue3';
-import { onUnmounted } from 'vue';
-import axios from 'axios';
 
 
 function nextPage(page) {
     localStorage.setItem('scrollPosition', window.scrollY);
     form.get(page, {
         preserveScroll: true,
+        preserveState: true,
         onSuccess: () => {
-            console.log("get is done!");
-            console.log(this);
-            console.log(localStorage.getItem('scrollPosition'));
-            window.scrollTo(0, localStorage.getItem('scrollPosition'));
+            window.scrollTo(0, document.body.scrollHeight);
         }
     });
 }

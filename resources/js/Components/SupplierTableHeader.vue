@@ -1,10 +1,11 @@
 <template>
     <thead>
-        <tr>
-            <td v-for="header in headers" :key="header">{{header}}</td>
-        </tr>
+      <tr>
+        <td v-for="header in headers" :key="header" class="border border-gray-300">{{ header }}</td>
+      </tr>
     </thead>
-</template>
+  </template>
+  
 
 <script setup>
 import { defineProps } from 'vue';
