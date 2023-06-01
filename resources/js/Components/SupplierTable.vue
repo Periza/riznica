@@ -61,9 +61,12 @@ const props = defineProps(
 function deleteSupplier(id)
 {
     
-    router.delete(`/supplier/${id}` + `?page=${page.props.suppliers.current_page}`, {
+    router.delete(`/supplier/${id}`, {
         preserveScroll: true,
-        preserveState: true
+        preserveState: true,
+        data: {
+            page: page.props.suppliers.current_page
+        }
     });
 }
 

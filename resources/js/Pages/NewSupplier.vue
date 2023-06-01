@@ -94,9 +94,12 @@ const isSubmitting = ref(false);
 const submitForm = () => {
     isSubmitting.value = true;
     form.visible_to_all = !hidden.value;
-    form.post(`/new-supplier` + `?page=${usePage().props.suppliers.current_page}`, {
+    form.post(`/new-supplier`, {
         preserveScroll: true,
         preserveState: true,
+        data: {
+            page: usePage().props.suppliers.current_page
+        },
         onSuccess: () => {
             form.reset();
         },
