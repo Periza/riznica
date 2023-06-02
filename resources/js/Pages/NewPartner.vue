@@ -34,7 +34,7 @@
                     <input required v-model="form.mjesto" id="mjesto" type="text" class="mt-1 block w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                     <InputError class="mt-2" :message="form.errors.mjesto" />
                 </div>
-                <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-red-800" :disabled="isSubmitting">{{ isSubmitting ? 'Unosim...':  'Unesi'}}</button>
+                <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-red-800" :disabled="form.processing">{{ form.processing ? 'Unosim...':  'Unesi'}}</button>
             </form>
         </div>
     </div>
@@ -105,7 +105,6 @@ const prikaziTablicu = function() {
 
 
 const submitForm = function () {
-    isSubmitting.value = true;
     form.post('/new-partner', {
         preserveScroll: true,
         onSuccess: () => {
@@ -114,9 +113,6 @@ const submitForm = function () {
                 fetchPartners();
             }
         },
-        onFinish: () => {
-            isSubmitting.value = false;
-        }
     });
 }
 

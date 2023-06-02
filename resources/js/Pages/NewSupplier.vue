@@ -45,7 +45,7 @@
                         <label for="vidljivost" class="text-sm font-medium text-gray-700">Ovaj dobavljač treba biti vidljiv samo meni</label>
                     </div>
 
-                    <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-green-700" :disabled="isSubmitting">{{ isSubmitting ? 'Unosim...':  'Unesi'}}</button>
+                    <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-green-700" :disabled="form.processing">{{ form.processing ? 'Unosim...':  'Unesi'}}</button>
                 </form>
             </div>
         </div>
@@ -91,12 +91,10 @@ const form = useForm({
 
 const hidden = ref(false);
 
-const isSubmitting = ref(false);
 
 const page = usePage();
 
 const submitForm = () => {
-    isSubmitting.value = true;
     form.visible_to_all = !hidden.value;
     form.transform((data) => ({
         ...data,
@@ -107,9 +105,6 @@ const submitForm = () => {
         onSuccess: () => {
             form.reset();
         },
-        onFinish: () => {
-            isSubmitting.value = false;
-        }
     });
 }
 
