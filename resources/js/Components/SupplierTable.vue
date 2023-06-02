@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-      <table v-if="props.show" class="w-full max-w-lg bg-white shadow-md rounded-lg border">
+      <table v-if="props.show" class="w-full max-w-lg bg-white shadow-md rounded-lg border mb-10">
         <SupplierTableHeader v-if="headers" :headers="headers" />
         <tbody>
           <tr v-for="supplier in page.props.suppliers.data" :key="supplier.id" :class="{'bg-green-200': supplier.partner_id == page.props.auth.user.partner.id}">
@@ -11,7 +11,7 @@
             <td class="border px-4 py-2">{{ supplier.city }}</td>
             <td class="border px-4 py-2">{{ supplier.oib }}</td>
             <td v-if="supplier.partner_id == page.props.auth.user.partner.id || page.props.auth.user.partner.id == 1" class="border px-4 py-2">
-              <button @click="deleteSupplier(supplier.id)" class="px-4 py-2 bg-red-500 text-white rounded">OBRIŠI</button>
+              <button @click="deleteSupplier(supplier.id, supplier.name)" class="px-4 py-2 bg-red-500 text-white rounded">OBRIŠI</button>
             </td>
             <td v-if="supplier.partner_id == page.props.auth.user.partner.id" class="border px-4 py-2">
               <button class="px-4 py-2 bg-blue-500 text-white rounded">UREDI</button>
@@ -31,19 +31,31 @@
         </tfoot>
       </table>
     </div>
+    <DeleteModal v-if="showDeleteConfirmation" :supplier-id="selectedSupplierId" @close-modal="closeModal">
+      <template #default>
+        <p class="text-red-600">
+          Jeste li sigurni da želite obrisati dobavljača {{selectedSupplierName}}?
+        </p>
+      </template>
+    </DeleteModal>
   </template>
-  
-  
-  
-  
-  
-  
+
+
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import SupplierTableHeader from './SupplierTableHeader.vue';
 import { router, usePage, useForm } from '@inertiajs/vue3';
+import DeleteModal from './DeleteModal.vue';
 
+
+const showDeleteConfirmation = ref(false);
+const selectedSupplierName = ref('');
+const selectedSupplierId = ref(-1);
+
+function closeModal() {
+  showDeleteConfirmation.value = false;
+}
 
 function nextPage(page) {
     localStorage.setItem('scrollPosition', window.scrollY);
@@ -73,16 +85,11 @@ const props = defineProps(
     }
 );
 
-function deleteSupplier(id)
+function deleteSupplier(id, name)
 {
-    
-    router.delete(`/supplier/${id}`, {
-        preserveScroll: true,
-        preserveState: true,
-        data: {
-            page: page.props.suppliers.current_page
-        }
-    });
+    selectedSupplierName.value = name;
+    selectedSupplierId.value = id;
+    showDeleteConfirmation.value = true;
 }
 
 onMounted(() => {

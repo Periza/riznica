@@ -47,7 +47,7 @@ class SupplierController extends Controller{
     }
 
     public function destroy(Supplier $supplier, Request $request) {
-        $this->autorize('delete', $supplier);
+        $this->authorize('delete', $supplier);
         $supplier->delete();
         $redirect_path = $request->page && $request->page > 1 ? "/new-supplier"."?page={$request->page}" : '/new-supplier';
         return redirect($redirect_path)->with(['toast' => ['message' => "Dobavljač {$supplier->name} obrisan!", 'type' => 'success']]);

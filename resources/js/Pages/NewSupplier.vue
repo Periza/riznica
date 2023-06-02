@@ -74,8 +74,10 @@ export default {
 import InputError from "@/Components/InputError.vue";
 import { useForm, usePage } from '@inertiajs/vue3';
 import { ref } from "vue";
+import DeleteModal from "@/Components/DeleteModal.vue";
 
 const showTable = ref(false);
+
 
 const form = useForm({
     name: '',
