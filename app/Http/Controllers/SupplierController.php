@@ -21,12 +21,16 @@ class SupplierController extends Controller{
         $this->supplierRepository = $repository;
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $operator = Auth::user();
         return Inertia::render('NewSupplier')->with(['suppliers' => fn () => Supplier::where(function($query) use ($operator) {
             $query->where('visible_to_all', true)->orWhere('partner_id', $operator->partner_id);
-        })->paginate(5)]);
+        })
+        ->when($request->term, function($query, $term) {
+            $query->where('name', 'like', '%'.$term.'%');
+        })
+        ->paginate(5)]);
     }
 
     public function store(Request $request) {

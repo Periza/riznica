@@ -53,6 +53,8 @@ const showDeleteConfirmation = ref(false);
 const selectedSupplierName = ref('');
 const selectedSupplierId = ref(-1);
 
+const searchTerm = ref('zeko');
+
 function closeModal() {
   showDeleteConfirmation.value = false;
 }

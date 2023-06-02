@@ -74,10 +74,17 @@ export default {
 import InputError from "@/Components/InputError.vue";
 import { useForm, usePage } from '@inertiajs/vue3';
 import { ref } from "vue";
-import DeleteModal from "@/Components/DeleteModal.vue";
+
+const props = defineProps(
+    {
+        suppliers: {
+            type: Object,
+            required: true
+        }
+    }
+);
 
 const showTable = ref(false);
-
 
 const form = useForm({
     name: '',
@@ -110,11 +117,11 @@ const submitForm = () => {
 
 function toggleTable() {
     showTable.value = !showTable.value;
-    localStorage.setItem('showTable', showTable.value.toString());
+    localStorage.setItem('showSupplierTable', showTable.value.toString());
 }
 
 onMounted(() => {
-    const savedShowTable = localStorage.getItem('showTable');
+    const savedShowTable = localStorage.getItem('showSupplierTable');
     if(savedShowTable !== null)
     {
         showTable.value = savedShowTable === 'true';
