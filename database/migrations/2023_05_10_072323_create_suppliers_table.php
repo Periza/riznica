@@ -18,7 +18,6 @@ class CreateSuppliersTable extends Migration
             $table->string('oib');
             $table->unsignedBigInteger('partner_id')->nullable();
             $table->boolean('visible_to_all')->default(true);
-            $table->timestamps();
 
             // Foreign key constraint to associate with the partners table
             $table->foreign('partner_id')->references('id')->on('partners')->onDelete('set null');

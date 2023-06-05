@@ -24,37 +24,48 @@ class SupplierController extends Controller{
     public function create(Request $request)
     {
         $operator = Auth::user();
-        return Inertia::render('NewSupplier')->with(['suppliers' => fn () => Supplier::where(function($query) use ($operator) {
+        return Inertia::render('Supplier/New')->with(['suppliers' => fn () => Supplier::where(function($query) use ($operator) {
             $query->where('visible_to_all', true)->orWhere('partner_id', $operator->partner_id);
         })
         ->when($request->term, function($query, $term) {
             $query->where('name', 'like', '%'.$term.'%');
         })
-        ->paginate(5)]);
+        ->paginate(20)]);
     }
 
-    public function store(Request $request) {
-        $data = $request->validate( [
-            'name' => 'required|string|max:255',
-            'oib' => 'required|string|size:11',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'visible_to_all' => 'required|boolean'
-        ]);
+    public function store(SupplierRequest $request) {
+        $data = $request->validated();
 
         $data['partner_id'] = Auth::user()->partner_id;
         $this->supplierRepository->create($data);
-        $redirect_path = $request->page && $request->page > 1 ? "/new-supplier"."?page={$request->page}" : "/new-supplier";
-        return redirect($redirect_path)->with(['toast' => ['message' => "Dobavljač {$request->name} dodan!", 'type' => 'success']]);
+        return redirect()->route('supplier.create', ['page' => $request->page, 'term' => $request->term])->with(['toast' => ['message' => "Dobavljač {$request->name} dodan!", 'type' => 'success']]);
+        // $redirect_path = $request->page && $request->page > 1 ? "/new-supplier"."?page={$request->page}" : "/new-supplier";
+        // return redirect()->route('supplier.create', $request->page && $request->page > 1 ? ['page'])->with(['toast' => ['message' => "Dobavljač {$request->name} dodan!", 'type' => 'success']]);
     }
 
     public function destroy(Supplier $supplier, Request $request) {
         $this->authorize('delete', $supplier);
         $supplier->delete();
+        return redirect()->route('supplier.create', ['page' => $request->page, 'term' => $request->term])->with(['toast' => ['message' => "Dobavljač {$supplier->name} obrisan!", 'type' => 'success']]);
+        /*
         $redirect_path = $request->page && $request->page > 1 ? "/new-supplier"."?page={$request->page}" : '/new-supplier';
         return redirect($redirect_path)->with(['toast' => ['message' => "Dobavljač {$supplier->name} obrisan!", 'type' => 'success']]);
+        */
+    }
+
+    public function edit(Supplier $supplier, Request $request)
+    {
+        return Inertia::render('Supplier/Edit')->with(['supplier' => $supplier]);
+    }
+
+    public function update(Supplier $supplier, SupplierRequest $request) {
+        $data = $request->validated();
+        $data['partner_id'] = Auth::user()->partner_id;
+
+        $supplier->update($data);
+        
+        return redirect()->route('supplier.edit', ['supplier' => $supplier])->with(['toast' => ['message' => "Dobavljač {$supplier->name} izmijenjen!", 'type' => 'success']]);
+
     }
 
 }

@@ -15,23 +15,37 @@
 
 <script setup>
 import { router, usePage } from '@inertiajs/vue3';
+import { watch } from 'vue';
 
 const page = usePage();
     const props = defineProps({
         supplierId: {
             type: Number,
             required: true
+        },
+        searchTerm: {
+          type: String,
+          required: false
         }
     });
 
     const emit = defineEmits(['closeModal']);
 
     function deleteItem() {
+        console.log(props.searchTerm);
+        /* If the current number of elements on the page is equal to 1
+        * and we make a delete request we are going to be a on a page that has no elements
+        * and the table will be empty. So, if the data.length of suppliers is equal to 1
+        * the page we need next time is current_page -1
+        */
+        const redirectPage = (page.props.suppliers.data.length == 1) ? page.props.suppliers.current_page - 1 : page.props.suppliers.current_page;
         router.delete(`/supplier/${props.supplierId}`, {
         preserveScroll: true,
         preserveState: true,
         data: {
-            page: page.props.suppliers.current_page
+
+            page: redirectPage,
+            term: props.searchTerm ? props.searchTerm : undefined
         }
         });
         emit('closeModal');
@@ -40,4 +54,6 @@ const page = usePage();
     function cancelDelete() {
         emit('closeModal');
     }
+
+    
 </script>

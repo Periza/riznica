@@ -63,9 +63,8 @@ import { toFormData } from 'axios';
 
 
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3';
-import { ref, inject } from 'vue';
-import toast from '@/Stores/toast';
+import { useForm } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue';
 import InputError from '@/Components/InputError.vue';
 import PartnerTable from '@/Components/PartnerTable.vue';
 
@@ -73,7 +72,6 @@ function partnerDeleted() {
     fetchPartners();
 }
 
-const page = usePage();
 
 const form = useForm({
     naziv: '',
@@ -84,7 +82,6 @@ const form = useForm({
     mjesto: '',
 });
 
-const isSubmitting = ref(false);
 
 const showTable = ref(false);
 
@@ -98,6 +95,7 @@ const fetchPartners = async function() {
 
 const prikaziTablicu = function() {
     showTable.value = !showTable.value;
+    localStorage.setItem('showPartnerTable', showTable.value.toString());
     if(showTable.value) {
         fetchPartners();
     }
@@ -115,5 +113,13 @@ const submitForm = function () {
         },
     });
 }
+
+onMounted(() => {
+    if(localStorage.getItem('showPartnerTable'))
+    {
+        showTable.value = localStorage.getItem('showPartnerTable') === 'true';
+        fetchPartners();
+    }
+});
 
 </script>

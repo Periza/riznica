@@ -14,7 +14,7 @@
               <button @click="deleteSupplier(supplier.id, supplier.name)" class="px-4 py-2 bg-red-500 text-white rounded">OBRIŠI</button>
             </td>
             <td v-if="supplier.partner_id == page.props.auth.user.partner.id" class="border px-4 py-2">
-              <button class="px-4 py-2 bg-blue-500 text-white rounded">UREDI</button>
+              <button class="px-4 py-2 bg-blue-500 text-white rounded" @click="editSupplier(supplier.id)">UREDI</button>
             </td>
           </tr>
         </tbody>
@@ -31,7 +31,7 @@
         </tfoot>
       </table>
     </div>
-    <DeleteModal v-if="showDeleteConfirmation" :supplier-id="selectedSupplierId" @close-modal="closeModal">
+    <DeleteModal v-if="showDeleteConfirmation" :supplier-id="selectedSupplierId" @close-modal="closeModal" :search-term="props.searchTerm">
       <template #default>
         <p class="text-red-600">
           Jeste li sigurni da želite obrisati dobavljača {{selectedSupplierName}}?
@@ -53,24 +53,24 @@ const showDeleteConfirmation = ref(false);
 const selectedSupplierName = ref('');
 const selectedSupplierId = ref(-1);
 
-const searchTerm = ref('zeko');
+function editSupplier(id) {
+  router.get(`/supplier/${id}`);
+}
 
 function closeModal() {
   showDeleteConfirmation.value = false;
 }
 
 function nextPage(page) {
-    localStorage.setItem('scrollPosition', window.scrollY);
-    form.get(page, {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: () => {
-            window.scrollTo(0, document.body.scrollHeight);
-        }
-    });
+    router.get(page, {
+      term: props.searchTerm ? props.searchTerm : undefined,
+    },
+    {
+      preserveState: true,
+      preserveScroll: true
+    }
+    );
 }
-
-const form = useForm({});
 
 const page = usePage();
 
@@ -83,6 +83,10 @@ const props = defineProps(
         headers: {
             type: Array,
             required: false
+        },
+        searchTerm: {
+          type: String,
+          requred: false
         }
     }
 );

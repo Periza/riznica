@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <div class="container mx-auto px-4 py-10">
+    <div class="container mx-auto px-4 py-10">
             <div class="bg-yellow-300 p-8 rounded-lg shadow">
-                <h1 class="text-2xl font-bold mb-6">Unos dobavljača</h1>
+                <h1 class="text-2xl font-bold mb-6">Uređivanje dobavljača</h1>
                 <form @submit.prevent="submitForm">
                     <div class="mb-4">
                         <label for="naziv" class="block text-sm font-medium text-gray-700">Naziv</label>
@@ -41,29 +40,17 @@
                     </div>
 
                     <div class="mb-4">
-                        <input v-model="hidden" id="vidljivost" name="vidljivost" type="checkbox" class="mr-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                        <input id="vidljivost" name="vidljivost" type="checkbox" :checked="!props.supplier.visible_to_all" @change="toggle" class="mr-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                         <label for="vidljivost" class="text-sm font-medium text-gray-700">Ovaj dobavljač treba biti vidljiv samo meni</label>
                     </div>
 
-                    <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-green-700" :disabled="form.processing">{{ form.processing ? 'Unosim...':  'Unesi'}}</button>
+                    <button type="submit" class="bg-green-600 text-black px-4 py-2 rounded-md hover:bg-green-700" :disabled="form.processing">{{ form.processing ? 'Spremam...':  'Spremi'}}</button>
                 </form>
             </div>
         </div>
-        <div class="text-center mb-10">
-            <button @click="toggleTable" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4">{{showTable ? 'Sakrij dobavljače' : 'Prikaži dobavljače'}}</button>
-        </div>
-        <SupplierTable :show="showTable" :headers="headers"></SupplierTable>
-    </div>
 </template>
 
-
 <script>
-import Layout from "@/Layouts/Layout.vue";
-import SupplierTable from "@/Components/SupplierTable.vue";
-import { onMounted } from "vue";
-
-const headers = ref(['ime', 'email', 'telefon', 'adresa', 'grad', 'oib'].map(stupac => stupac.toUpperCase()));
-
 export default {
     layout: [Layout]
 }
@@ -71,61 +58,37 @@ export default {
 </script>
 
 <script setup>
+import Layout from '@/Layouts/Layout.vue';
+import { useForm } from '@inertiajs/vue3';
+import { computed, watch, ref } from 'vue';
 import InputError from "@/Components/InputError.vue";
-import { useForm, usePage } from '@inertiajs/vue3';
-import { ref } from "vue";
+import { onMounted } from 'vue';
 
-const props = defineProps(
-    {
-        suppliers: {
-            type: Object,
-            required: true
-        }
+const props = defineProps({
+    supplier: {
+        type: Object,
+        requred: true
     }
-);
-
-const showTable = ref(false);
-
-const form = useForm({
-    name: '',
-    oib: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    visible_to_all: true
 });
 
-const hidden = ref(false);
 
-
-const page = usePage();
-
-const submitForm = () => {
-    form.visible_to_all = !hidden.value;
-    form.transform((data) => ({
-        ...data,
-        page: page.props.suppliers.current_page
-    })).post(`/new-supplier`, {
-        preserveScroll: true,
-        preserveState: true,
-        onSuccess: () => {
-            form.reset();
-        },
-    });
+function toggle() {
+    form.visible_to_all = !form.visible_to_all;
 }
 
-function toggleTable() {
-    showTable.value = !showTable.value;
-    localStorage.setItem('showSupplierTable', showTable.value.toString());
+function submitForm() {
+    console.log("submit Form");
+    form.put(`/supplier/${props.supplier.id}`);
 }
 
-onMounted(() => {
-    const savedShowTable = localStorage.getItem('showSupplierTable');
-    if(savedShowTable !== null)
-    {
-        showTable.value = savedShowTable === 'true';
-    }
+const form = useForm({
+    name: props.supplier.name || '',
+    oib: props.supplier.oib || '',
+    email: props.supplier.email || '',
+    phone: props.supplier.phone || '',
+    address: props.supplier.address || '',
+    city: props.supplier.city || '',
+    visible_to_all: props.supplier.visible_to_all
 });
 
 </script>
