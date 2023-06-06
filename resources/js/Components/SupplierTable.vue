@@ -3,7 +3,7 @@
       <table v-if="props.show" class="w-full max-w-lg bg-white shadow-md rounded-lg border mb-10">
         <SupplierTableHeader v-if="headers" :headers="headers" />
         <tbody>
-          <tr v-for="supplier in page.props.suppliers.data" :key="supplier.id" :class="{'bg-green-200': supplier.partner_id == page.props.auth.user.partner.id}">
+          <tr v-for="supplier in page.props.suppliers.data" :key="supplier.id" :class="{'bg-green-500': supplier.partner_id == page.props.auth.user.partner.id && !supplier.visible_to_all, 'bg-green-200': supplier.partner_id == page.props.auth.user.partner.id}">
             <td class="border px-4 py-2">{{ supplier.name }}</td>
             <td class="border px-4 py-2">{{ supplier.email }}</td>
             <td class="border px-4 py-2">{{ supplier.phone }}</td>
