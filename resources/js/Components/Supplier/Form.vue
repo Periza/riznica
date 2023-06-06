@@ -37,7 +37,7 @@
             </div>
 
             <div class="mb-4">
-                <input id="vidljivost" name="vidljivost" type="checkbox" :checked="!props.form.visible_to_all" @change="toggle" class="mr-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                <input id="vidljivost" name="vidljivost" type="checkbox" :checked="!form.visible_to_all" @change="toggle" class="mr-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                 <label for="vidljivost" class="text-sm font-medium text-gray-700">Ovaj dobavljač treba biti vidljiv samo meni</label>
             </div>
 
@@ -52,13 +52,14 @@ import InputError from "@/Components/InputError.vue";
 const props = defineProps({
     form: {
         type: Object,
-        required: false
+        required: true
     },
-    supplier: {
-        type: Object,
-        requred: true
-    }
 });
+
+function toggle() {
+    console.log("toggle");
+    props.form.visible_to_all = !props.form.visible_to_all;
+}
 
 const emits = defineEmits(['form-submitted']);
 </script>
