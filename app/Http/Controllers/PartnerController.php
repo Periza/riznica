@@ -20,7 +20,7 @@ class PartnerController extends BaseController
     public function create() {
         return Inertia::render('NewPartner');
     }
-    
+
     // Create and store a new partner in the database
     public function store(StorePartnerRequest $request) {
         $data = $request->validated();
@@ -29,7 +29,7 @@ class PartnerController extends BaseController
         return Inertia::render('NewPartner')->with(['toast' => ['message' => "Partner {$request['naziv']} dodan!", 'type' => 'success']]);
     }
 
-    
+
     public function destroy($id) {
         $partner = Partner::find($id);
         $this->partnerRepository->delete($partner->id);

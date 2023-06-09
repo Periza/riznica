@@ -9,7 +9,6 @@ class AuthController extends Controller
 
     public function createToken(Request $request)
     {
-        // dd($request);
         $credentials = $request->validate([
             'sifra' => 'required',
             'password' => 'required',

@@ -8,6 +8,8 @@ use App\Repositories\SupplierRepository;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 use App\Models\Supplier;
 
@@ -24,6 +26,7 @@ class SupplierController extends Controller{
     public function create(Request $request)
     {
         $operator = Auth::user();
+
         return Inertia::render('Supplier/New')->with(['suppliers' => fn () => Supplier::where(function($query) use ($operator) {
             $query->where('visible_to_all', true)->orWhere('partner_id', $operator->partner_id);
         })

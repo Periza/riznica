@@ -11,12 +11,13 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\Operator\OperatorAuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
 
-    Route::get('/operator/login', [OperatorController::class, 'create'])->name('operatorLogin');
-    Route::post('/operator/login', [OperatorController::class, 'login'])->name('operatorLoginPost');
+    Route::get('/operator/login', [OperatorAuthController::class, 'create'])->name('operatorLogin');
+    Route::post('/operator/login', [OperatorAuthController::class, 'store'])->name('operatorLoginPost');
 
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
@@ -68,4 +69,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+
+    Route::post('/operator/logout', [OperatorAuthController::class, 'destroy'])->name('operator.logout');
 });

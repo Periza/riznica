@@ -2,39 +2,36 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MyEmail;
+use App\Models\Partner;
+use App\Models\Operator;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
+use Illuminate\Http\Request;
+use App\Http\Requests\OperatorRequest;
 use App\Providers\RouteServiceProvider;
-use App\Http\Requests\Auth\OperatorLoginRequest;
 use Illuminate\Routing\Controller as BaseController;
 
 
 class OperatorController extends BaseController
 {
     public function create() {
-        return Inertia::render('Auth/OperatorLogin');
+        return Inertia::render('Operator/New')->with(['partners' => Partner::all()]);
     }
 
-    public function login(OperatorLoginRequest $request) {
+    public function store(OperatorRequest $request) {
+        $data = $request->validated();
 
-        
-        $request->authenticate();
+        $password = Str::random(8);
+        // Random 8-char password
+        $data['password'] = bcrypt($password);
+        // Create an operator
+        $operator = Operator::create($data);
 
-        $request->session()->regenerate();
+        Mail::to($operator->email)->send(new MyEmail($password));
 
-        $user = Auth::user();
-
-        // If 'remember' field is set to true
-        if($request->input('remember'))
-        {
-            $user->setRememberToken(Str::random(60));
-            $user->save();
-        }
-
-
-        return Inertia::render('OperatorDashboard')->with(['auth' => ['user' => $user]]);
     }
 
 

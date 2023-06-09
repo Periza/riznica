@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('operators', function (Blueprint $table) {
             $table->id();
-            $table->integer('sifra')->length(11);
+            $table->integer('sifra')->unique()->length(11);
             $table->string('name');
             $table->string('password');
             $table->string('email');
             $table->unsignedBigInteger('partner_id')->nullable();
+            $table->boolean('confirmed')->default(false);
+            $table->string('confirmation_token')->nullable();
             $table->foreign('partner_id')->references('id')->on('partners');
             $table->rememberToken();
         });

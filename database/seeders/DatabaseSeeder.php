@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $partners = Partner::factory()->count(10)->create();
-        $operators = Operator::factory()->count(10)->create();
-        $suppliers = Supplier::factory()->count(10)->create();
+        $partners = Partner::factory()->count(20)->create();
+        $operators = Operator::factory()->count(20)->create();
+        $suppliers = Supplier::factory()->count(20)->create();
     }
 }

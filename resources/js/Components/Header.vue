@@ -25,6 +25,6 @@ import { ref } from 'vue';
 const form = useForm({});
 
 const logout = () => {
-  form.post('/logout');
+  form.post('/operator/logout');
 };
 </script>

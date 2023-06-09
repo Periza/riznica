@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\SupplierController;
@@ -59,7 +60,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/supplier/{supplier}', [SupplierController::class, 'destroy'])->name('supplier.delete');
 
     Route::get('/supplier/{supplier}', [SupplierController::class, 'edit'])->name('supplier.edit');
-    Route::put("/supplier/{supplier}", [SupplierController::class, "update"])->name("supplier.update");    
+    Route::put("/supplier/{supplier}", [SupplierController::class, "update"])->name("supplier.update");
+
+    // Operator requests
+    Route::get('/new-operator', [OperatorController::class, 'create'])->name('operator.new')->middleware('can:partner-one');
+    Route::post('/new-operator', [OperatorController::class, 'store'])->name('operator.new')->middleware('can:partner-one');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
